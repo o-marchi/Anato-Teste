@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>Anato Teste</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body id="app" class="container">
+
+	<div class="row">
+
+		<div class=col-md-6>
+
+			<div class="progress"
+				 v-show="currentQuestion !== 0"
+			>
+				<!-- calculate timer percentage -->
+				<div class="progress-bar progress-bar-danger pull-right"
+					 style="width: {{ (timer * 100) / maxTimer }}%"
+				>
+					<span>{{ timer }} Segundos</span>
+				</div>
+			</div>
+
+			<h1>{{ currentQuestion.body }}</h1>
+
+			<img src="{{ currentQuestion.img }}" class="img-thumbnail">
+
+			<div class="list-group" 
+				v-for="answer in currentQuestion.answers">
+				<a class="list-group-item" 
+				   @click.prevent="respondQuestion(currentQuestion, answer)"
+				>
+				   {{ answer.body }}
+				</a>
+			</div>
+
+			<div v-show="currentQuestion === 0">
+				<h1>Resumo</h1>
+
+				<div v-for="question in questions | filterBy 'true' in 'finished'">
+					<h3>{{ question.body }}</h3>
+					<div class="list-group" 
+						v-for="answer in question.answers | filterBy 'true' in 'choose'">
+						<li class="list-group-item">{{ answer.body }}</li>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.js"></script>
+	<script src="js/main.js"></script>
+	
+</body>
+</html>
